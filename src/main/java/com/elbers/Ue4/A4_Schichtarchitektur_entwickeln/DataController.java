@@ -5,23 +5,27 @@ import com.elbers.Ue4.A3_MVC_untersuchen_und_umsetzen.IObserverInterface;
 
 import java.util.ArrayList;
 
-public class DataModel implements IModelInterface {
+public class DataController implements IModelInterface {
 
     DataModelEntity dataModelEntity;
+    DatabaseService service;
     private ArrayList<IObserverInterface> m_observers = new ArrayList<>();
 
-    public DataModel() {
-        dataModelEntity = new DataModelEntity();
+    public DataController() {
+        this.service = DatabaseService.getInstance();
+        pull();
     }
 
-    public DataModel(int red, int green, int blue) {
+    public DataController(int red, int green, int blue) {
+        this.service = DatabaseService.getInstance();
         dataModelEntity = new DataModelEntity();
         dataModelEntity.setM_redValue(red);
         dataModelEntity.setM_greenValue(green);
         dataModelEntity.setM_blueValue(blue);
+        submit();
     }
 
-    public DataModel(DataModelEntity dataModelEntity) {
+    public DataController(DataModelEntity dataModelEntity) {
         this.dataModelEntity = dataModelEntity;
     }
 
@@ -34,12 +38,13 @@ public class DataModel implements IModelInterface {
     }
     @Override
     public double getRedPercentage() {
-        return dataModelEntity.getM_redValue() / getTotal();
+        return (double) dataModelEntity.getM_redValue() / getTotal();
     }
 
     @Override
     public void setRedValue(int redValue) {
         dataModelEntity.setM_redValue(redValue);
+        notifyObservers();
     }
 
     public Integer getRedValue() {
@@ -48,12 +53,13 @@ public class DataModel implements IModelInterface {
 
     @Override
     public double getGreenPercentage() {
-        return dataModelEntity.getM_greenValue() / getTotal();
+        return (double) dataModelEntity.getM_greenValue() / getTotal();
     }
 
     @Override
     public void setGreenValue(int greenValue) {
         dataModelEntity.setM_greenValue(greenValue);
+        notifyObservers();
     }
 
     public Integer getGreenValue() {
@@ -62,17 +68,20 @@ public class DataModel implements IModelInterface {
 
     @Override
     public double getBluePercentage() {
-        return dataModelEntity.getM_blueValue() / getTotal();
+        return (double) dataModelEntity.getM_blueValue() / getTotal();
     }
 
     @Override
     public void setBlueValue(int blueValue) {
         dataModelEntity.setM_blueValue(blueValue);
+        notifyObservers();
     }
 
     public Integer getBlueValue() {
         return dataModelEntity.getM_blueValue();
     }
+
+
 
     @Override
     public void registerObserver(IObserverInterface o) {
@@ -89,5 +98,14 @@ public class DataModel implements IModelInterface {
         for (IObserverInterface m_observer : m_observers) {
             m_observer.update();
         }
+        submit();
+    }
+
+    public void submit(){
+        service.addDataModel(dataModelEntity);
+    }
+
+    public void pull() {
+        dataModelEntity = service.readDataModelFromDatabase().get(0);
     }
 }

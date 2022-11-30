@@ -22,6 +22,21 @@ public class DataModel implements IModelInterface {
         notifyObservers();
     }
 
+    @Override
+    public Integer getBlueValue() {
+        return m_blueValue;
+    }
+
+    @Override
+    public Integer getGreenValue() {
+        return m_greenValue;
+    }
+
+    @Override
+    public Integer getRedValue() {
+        return m_redValue;
+    }
+
     public double getGreenPercentage() {
         double total = m_redValue + m_greenValue + m_blueValue;
         if (total > 0) {

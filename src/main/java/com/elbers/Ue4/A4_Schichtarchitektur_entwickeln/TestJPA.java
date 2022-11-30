@@ -7,9 +7,9 @@ public class TestJPA {
         DatabaseService service = DatabaseService.getInstance();
         TestJPA instance = new TestJPA();
 
-        DataModel dataModel = new DataModel(34, 56, 90);
+        DataController dataController = new DataController(34, 56, 90);
 
-        service.addDataModel(dataModel.getEntity());
+        service.addDataModel(dataController.getEntity());
         instance.outputListToTerminal(service.readDataModelFromDatabase());
         service.close();
     }
@@ -17,14 +17,14 @@ public class TestJPA {
     private void outputListToTerminal(List<DataModelEntity> entitys) {
         for (DataModelEntity dme:
              entitys) {
-            DataModel dataModel = new DataModel(dme);
+            DataController dataController = new DataController(dme);
             StringBuilder stringBuilder = new StringBuilder("RGB values:");
             stringBuilder.append(" Red: ");
-            stringBuilder.append(integerToString(dataModel.getRedValue()));
+            stringBuilder.append(integerToString(dataController.getRedValue()));
             stringBuilder.append(" Green: ");
-            stringBuilder.append(integerToString(dataModel.getGreenValue()));
+            stringBuilder.append(integerToString(dataController.getGreenValue()));
             stringBuilder.append(" Blue: ");
-            stringBuilder.append(integerToString(dataModel.getBlueValue()));
+            stringBuilder.append(integerToString(dataController.getBlueValue()));
 
             System.out.println(stringBuilder);
         }

@@ -15,18 +15,18 @@ public class TableView implements IObserverInterface {
     JButton setButton;
 
     public TableView(IModelInterface model) {
-        createComponents();
         m_model = model;
         m_model.registerObserver(this);
         m_controller = new TableViewController(m_model, this);
+        createComponents();
     }
 
     public void createComponents() {
         viewPanel = new JPanel();
         viewFrame = new JFrame("View");
-        redTextField = new JTextField(10);
-        greenTextField = new JTextField(10);
-        blueTextField = new JTextField(10);
+        redTextField = new JTextField(m_model.getRedValue().toString(), 10);
+        greenTextField = new JTextField(m_model.getGreenValue().toString(),10);
+        blueTextField = new JTextField(m_model.getBlueValue().toString(),10);
         setButton = new JButton("Set");
         setButton.addActionListener(e -> {
             m_controller.setValues(redTextField.getText(), greenTextField.getText(), blueTextField.getText());

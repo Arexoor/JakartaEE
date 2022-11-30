@@ -21,6 +21,7 @@ public class PieChartView extends JFrame implements IObserverInterface{
         m_model = model;
         m_model.registerObserver(this);
         createComponents();
+        update();
     }
     JFreeChart chart;
     ChartPanel panel;

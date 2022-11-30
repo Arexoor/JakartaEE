@@ -8,5 +8,9 @@ public interface IModelInterface extends IObservableInterface {
     public void setGreenValue(int greenValue);
     public double getBluePercentage();
     public void setBlueValue(int blueValue);
+
+    public Integer getBlueValue();
+    public Integer getGreenValue();
+    public Integer getRedValue();
 }
 
